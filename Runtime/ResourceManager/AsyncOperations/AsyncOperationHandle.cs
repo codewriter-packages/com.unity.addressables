@@ -1,3 +1,7 @@
+#if !ADDRESSABLES_SYNC_ASSETS_LOAD_DISABLED
+#define ADDRESSABLES_SYNC_ASSETS_LOAD
+#endif
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -321,7 +325,9 @@ namespace UnityEngine.ResourceManagement.AsyncOperations
     /// </summary>
     public struct AsyncOperationHandle : IEnumerator
     {
-#if !UNITY_2021_1_OR_NEWER
+#if !UNITY_2021_1_OR_NEWER || ADDRESSABLES_SYNC_ASSETS_LOAD
+        public const bool IsWaitingForCompletion = true;
+#elif !UNITY_2021_1_OR_NEWER
         private static bool m_IsWaitingForCompletion = false;
         /// <summary>
         /// Indicates that the async operation is in the process of being completed synchronously.

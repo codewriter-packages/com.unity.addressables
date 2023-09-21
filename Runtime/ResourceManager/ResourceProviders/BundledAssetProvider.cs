@@ -1,3 +1,7 @@
+#if !ADDRESSABLES_SYNC_ASSETS_LOAD_DISABLED
+#define ADDRESSABLES_SYNC_ASSETS_LOAD
+#endif
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -88,7 +92,7 @@ namespace UnityEngine.ResourceManagement.ResourceProviders
                     var assetPath = m_ProvideHandle.ResourceManager.TransformInternalId(m_ProvideHandle.Location);
                     if (m_ProvideHandle.Type.IsArray)
                     {
-#if !UNITY_2021_1_OR_NEWER
+#if !UNITY_2021_1_OR_NEWER || ADDRESSABLES_SYNC_ASSETS_LOAD
                         if (AsyncOperationHandle.IsWaitingForCompletion)
                         {
                             GetArrayResult(m_AssetBundle.LoadAssetWithSubAssets(assetPath, m_ProvideHandle.Type.GetElementType()));
@@ -100,7 +104,7 @@ namespace UnityEngine.ResourceManagement.ResourceProviders
                     }
                     else if (m_ProvideHandle.Type.IsGenericType && typeof(IList<>) == m_ProvideHandle.Type.GetGenericTypeDefinition())
                     {
-#if !UNITY_2021_1_OR_NEWER
+#if !UNITY_2021_1_OR_NEWER || ADDRESSABLES_SYNC_ASSETS_LOAD
                         if (AsyncOperationHandle.IsWaitingForCompletion)
                         {
                             GetListResult(m_AssetBundle.LoadAssetWithSubAssets(assetPath, m_ProvideHandle.Type.GetGenericArguments()[0]));
@@ -115,7 +119,7 @@ namespace UnityEngine.ResourceManagement.ResourceProviders
                         if (ResourceManagerConfig.ExtractKeyAndSubKey(assetPath, out string mainPath, out string subKey))
                         {
                             subObjectName = subKey;
-#if !UNITY_2021_1_OR_NEWER
+#if !UNITY_2021_1_OR_NEWER || ADDRESSABLES_SYNC_ASSETS_LOAD
                             if (AsyncOperationHandle.IsWaitingForCompletion)
                             {
                                 GetAssetSubObjectResult(m_AssetBundle.LoadAssetWithSubAssets(mainPath, m_ProvideHandle.Type));
@@ -127,7 +131,7 @@ namespace UnityEngine.ResourceManagement.ResourceProviders
                         }
                         else
                         {
-#if !UNITY_2021_1_OR_NEWER
+#if !UNITY_2021_1_OR_NEWER || ADDRESSABLES_SYNC_ASSETS_LOAD
                             if (AsyncOperationHandle.IsWaitingForCompletion)
                             {
                                 GetAssetResult(m_AssetBundle.LoadAsset(assetPath, m_ProvideHandle.Type));

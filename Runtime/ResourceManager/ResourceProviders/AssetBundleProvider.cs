@@ -2,6 +2,10 @@
 #define UNLOAD_BUNDLE_ASYNC
 #endif
 
+#if !ADDRESSABLES_SYNC_ASSETS_LOAD_DISABLED
+#define ADDRESSABLES_SYNC_ASSETS_LOAD
+#endif
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -374,7 +378,7 @@ namespace UnityEngine.ResourceManagement.ResourceProviders
 
             if (m_Options.AssetLoadMode == AssetLoadMode.AllPackedAssetsAndDependencies)
             {
-#if !UNITY_2021_1_OR_NEWER
+#if !UNITY_2021_1_OR_NEWER || ADDRESSABLES_SYNC_ASSETS_LOAD
                 if (AsyncOperationHandle.IsWaitingForCompletion)
                 {
                     m_AssetBundle.LoadAllAssets();
